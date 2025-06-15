@@ -1,0 +1,5 @@
+out/
+arch/arm/boot/Image
+arch/arm/boot/zImage
+arch/arm/boot/Image.gz
+build_kernel.sh
