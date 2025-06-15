@@ -160,6 +160,15 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 	new_value = !!new_value;
 
 	old_value = enforcing_enabled(state);
+
+#ifdef CONFIG_ALWAYS_ENFORCE
+	// If build is user build and enforce option is set, selinux is always enforcing
+	new_value = 1;
+#elif defined(CONFIG_ALWAYS_PERMISSIVE)
+        // If always permissive option is set, selinux is always permissive
+        new_value = 0;
+#endif
+
 	if (new_value != old_value) {
 		length = avc_has_perm(&selinux_state,
 				      current_sid(), SECINITSID_SECURITY,
